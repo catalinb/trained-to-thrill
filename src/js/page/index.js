@@ -37,6 +37,10 @@ var photoIDsDisplayed = null;
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js');
 
+  navigator.serviceWorker.onmessage = function(e) {
+    console.log("got: " + e.data);
+  }
+
   // Warm up the cache on that very first use
   if (!navigator.serviceWorker.controller) {
     navigator.serviceWorker.addEventListener('controllerchange', function changeListener() {

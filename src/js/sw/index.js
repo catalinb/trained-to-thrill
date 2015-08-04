@@ -20,6 +20,19 @@ require('serviceworker-cache-polyfill');
 var version = 'v15';
 var staticCacheName = 'trains-static-v15';
 
+var counter = 0;
+function heartbeatLoop() {
+  clients.matchAll().then(function(cls) {
+    for (i = 0; i < cls.length; i++) {
+      cls[i].postMessage("heartbeat: " + counter);
+    }
+    counter = counter + 1;
+    setTimeout(heartbeatLoop, 500);
+  });
+}
+
+heartbeatLoop();
+
 self.oninstall = function(event) {
   self.skipWaiting();
 
